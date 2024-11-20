@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">CoffeeRecomand</string>
+    <string name="title">커피를 추천해드립니다.</string>
+    <string name="question_title">질문이 여기서 나옵니다. 추천을 시작할까요?</string>
+    <string name="Btn_yes">네</string>
+    <string name="Btn_no">아니오</string>
+    <string name="question_01">풍미는 강렬하게? 아니면 다양하게?</string>
+
+</resources>
