@@ -87,7 +87,7 @@
                             android:textSize="16sp" />
                     </LinearLayout>
 
-                    <!-- Menu Icon -->
+
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -95,17 +95,15 @@
                         android:contentDescription="Menu Icon" />
                 </LinearLayout>
 
-                <!-- Image Placeholder -->
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_marginBottom="16dp"
+                    <!-- FireFly로 생성한 이미지를 배경화면으로 이용-->
+                    />
 
-                    android:background="@drawable/backImage" />
 
-                <!-- Additional Text -->
-
-                <!-- Description Text -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -144,4 +142,5 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
+
 </ScrollView>
