@@ -6,16 +6,19 @@ import androidx.appcompat.app.AppCompatActivity;
 ;import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+    String[] questions = {getString(R.string.question0),getString(R.string.question1),getString(R.string.question2), getString(R.string.question3), getString(R.string.question4)};
     View menuView;
+    Button yesBtn;
+    Button noBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 
     }
@@ -29,14 +32,14 @@ public class MainActivity extends AppCompatActivity {
         // defind menu items
         int id = item.getItemId();
         if (id == R.id.restart) {
-            Toast.makeText(this, "커피 추천 테스트를 다시 시작합니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.menuRestart), Toast.LENGTH_SHORT).show();
 
             return true;
         }
         else if (id == R.id.coffeMenus) {
-            Toast.makeText(this, "추천 해주는 커피 메뉴의 후보군을 봅니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.menus), Toast.LENGTH_SHORT).show();
         } else if (id==R.id.justSee) {
-            Toast.makeText(this, "이 곳에는 뭔가 귀여운 것을 띄워보려고 합니다. 이 곳에 띄우는 이미지나 모델링의 캐릭터가, 커피 추천 테스트의 결과를 알려주게 할 것입니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.menus), Toast.LENGTH_SHORT).show();
 
         }
         return super.onOptionsItemSelected(item);
