@@ -37,7 +37,7 @@
         android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/americano"
+        app:srcCompat="@drawable/question0"
         tools:layout_editor_absoluteX="106dp"
         tools:layout_editor_absoluteY="43dp" />
 
