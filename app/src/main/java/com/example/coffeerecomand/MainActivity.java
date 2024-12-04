@@ -1,4 +1,5 @@
 package com.example.coffeerecomand;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,15 +8,13 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.coffeerecomand.R;
-
 import java.util.LinkedHashMap;
 
 public class MainActivity extends AppCompatActivity {
     private LinkedHashMap<Integer, Boolean> imageClickStatus = new LinkedHashMap<>();
-    private RecyclerView recyclerView; //Image wiil showed here
+    private RecyclerView recyclerView; // RecyclerView 선언
     private ImageAdapter adapter;
-    public String[] drinks;
+    private String[] drinks;
     private int[] images = {
             R.drawable.icetea_peach,
             R.drawable.hot_choco,
@@ -29,28 +28,42 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // 음료 이름 초기화
         drinks = new String[]{
                 getString(R.string.icetea_peach),
                 getString(R.string.hot_choco),
                 getString(R.string.hand_drip),
                 getString(R.string.latte),
                 getString(R.string.americano),
-                getString(R.string.decaffeined), // Decaffeinated Coffee
-                getString(R.string.cold_brew),   // Cold Brew
-                getString(R.string.milk)         // Milk
+                getString(R.string.decaffeined),
+                getString(R.string.cold_brew),
+                getString(R.string.milk)
         };
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        // LinkedHashMap 초기화
+        initializeImageClickStatus();
+
+        // RecyclerView 설정
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // 세로 스크롤 설정
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-        adapter = new ImageAdapter(drinks, images);
+        // 어댑터 설정
+        adapter = new ImageAdapter(drinks, images, imageClickStatus);
         recyclerView.setAdapter(adapter);
-        setupItemTouchHelper();
 
+        // ItemTouchHelper 설정
+        setupItemTouchHelper();
     }
+
+    private void initializeImageClickStatus() {
+        for (int image : images) {
+            imageClickStatus.put(image, false); // 초기 상태는 false
+        }
+    }
+
     private void setupItemTouchHelper() {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
             @Override
