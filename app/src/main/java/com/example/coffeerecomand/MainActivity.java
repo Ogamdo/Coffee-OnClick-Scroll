@@ -1,44 +1,87 @@
 package com.example.coffeerecomand;
-
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-;import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.Toast;
-import android.view.View;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.coffeerecomand.R;
+
+import java.util.LinkedHashMap;
 
 public class MainActivity extends AppCompatActivity {
-    View menuView;
+    private LinkedHashMap<Integer, Boolean> imageClickStatus = new LinkedHashMap<>();
+    private RecyclerView recyclerView; //Image wiil showed here
+    private ImageAdapter adapter;
+    public String[] drinks;
+    private int[] images = {
+            R.drawable.icetea_peach,
+            R.drawable.hot_choco,
+            R.drawable.hand_drip,
+            R.drawable.latte,
+            R.drawable.americano,
+            R.drawable.decaffeined,
+            R.drawable.cold_brew,
+            R.drawable.milk
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        drinks = new String[]{
+                getString(R.string.icetea_peach),
+                getString(R.string.hot_choco),
+                getString(R.string.hand_drip),
+                getString(R.string.latte),
+                getString(R.string.americano),
+                getString(R.string.decaffeined), // Decaffeinated Coffee
+                getString(R.string.cold_brew),   // Cold Brew
+                getString(R.string.milk)         // Milk
+        };
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // 세로 스크롤 설정
 
+
+        adapter = new ImageAdapter(drinks, images);
+        recyclerView.setAdapter(adapter);
+        setupItemTouchHelper();
 
     }
-    public boolean onCreateOptionsMenu(Menu menu) {
+    private void setupItemTouchHelper() {
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
+            @Override
+            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                return makeMovementFlags(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0);
+            }
 
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // defind menu items
-        int id = item.getItemId();
-        if (id == R.id.restart) {
-            Toast.makeText(this, "커피 추천 테스트를 다시 시작합니다.", Toast.LENGTH_SHORT).show();
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                int fromPosition = viewHolder.getAdapterPosition();
+                int toPosition = target.getAdapterPosition();
 
-            return true;
-        }
-        else if (id == R.id.coffeMenus) {
-            Toast.makeText(this, "추천 해주는 커피 메뉴의 후보군을 봅니다.", Toast.LENGTH_SHORT).show();
-        } else if (id==R.id.justSee) {
-            Toast.makeText(this, "이 곳에는 뭔가 귀여운 것을 띄워보려고 합니다. 이 곳에 띄우는 이미지나 모델링의 캐릭터가, 커피 추천 테스트의 결과를 알려주게 할 것입니다.", Toast.LENGTH_SHORT).show();
+                // 데이터 스왑
+                String tempQuestion = drinks[fromPosition];
+                int tempImage = images[fromPosition];
+                drinks[fromPosition] = drinks[toPosition];
+                images[fromPosition] = images[toPosition];
+                drinks[toPosition] = tempQuestion;
+                images[toPosition] = tempImage;
 
-        }
-        return super.onOptionsItemSelected(item);
+                // 어댑터에 변경 알림
+                adapter.notifyItemMoved(fromPosition, toPosition);
+                return true;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                // 스와이프 동작 비활성화
+            }
+        });
+
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 }
