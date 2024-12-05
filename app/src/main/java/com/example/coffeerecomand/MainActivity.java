@@ -1,6 +1,7 @@
 package com.example.coffeerecomand;
 
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.cold_brew,
             R.drawable.milk
     };
+    private Button upBtn, downBtn;
+    private int currentScrollPosition = 0; //버튼 현재 위치 추적
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +57,21 @@ public class MainActivity extends AppCompatActivity {
         // 어댑터 설정
         adapter = new ImageAdapter(drinks, images, imageClickStatus);
         recyclerView.setAdapter(adapter);
+        upBtn = (Button) findViewById(R.id.upBtn);
+        downBtn = (Button) findViewById(R.id.downBtn);
+        upBtn.setOnClickListener(v -> {
+            if (currentScrollPosition > 0) {
+                currentScrollPosition--; // 위치 감소
+                recyclerView.smoothScrollToPosition(currentScrollPosition); // 위로 스크롤
+            }
+        });
 
+        downBtn.setOnClickListener(v -> {
+            if (currentScrollPosition < images.length - 1) {
+                currentScrollPosition++; // 위치 증가
+                recyclerView.smoothScrollToPosition(currentScrollPosition); // 아래로 스크롤
+            }
+        });
         // ItemTouchHelper 설정
         setupItemTouchHelper();
     }
@@ -85,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 images[toPosition] = tempImage;
 
                 // 어댑터에 변경 알림
-                adapter.notifyItemMoved(fromPosition, toPosition);
+                adapter.notifyItemMoved(fromPosition, toPosition); //
                 return true;
             }
 
